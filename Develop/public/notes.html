@@ -1,46 +1,94 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Note Taker</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-      integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="/assets/css/styles.css" />
-  </head>
 
-  <body>
-    <nav class="navbar bg-info">
-      <a class="navbar-brand text-light p-3" href="/">Note Taker </a>
-      <div class="icons">
-        <i class="fas fa-save text-light save-note"></i>
-        <i class="fas fa-plus text-light new-note"></i>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Note Taker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+    integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+</head>
+
+<body>
+  <nav class="navbar bg-info">
+    <a class="navbar-brand text-light p-3" href="/">Note Taker </a>
+    <div class="icons">
+      <i class="fas fa-save text-light save-note"></i>
+      <i class="fas fa-plus text-light new-note"></i>
+    </div>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-4 list-container">
+        <div class="card">
+          <ul class="list-group" id="notes-list"></ul>
+        </div>
       </div>
-    </nav>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-4 list-container">
-          <div class="card">
-            <ul class="list-group"></ul>
-          </div>
-        </div>
-        <div class="col-8">
-          <input
-            class="note-title"
-            placeholder="Note Title"
-            maxlength="28"
-            type="text"
-          />
-          <textarea class="note-textarea" placeholder="Note Text"></textarea>
-        </div>
+      <div class="col-8">
+        <input class="note-title" placeholder="Note Title" maxlength="28" type="text" id="note-title-input" />
+        <textarea class="note-textarea" placeholder="Note Text" id="note-textarea"></textarea>
       </div>
     </div>
+  </div>
+  <script src="/assets/js/index.js"></script>
+  <script>
+    // JavaScript code to handle note functionality
+
+    // Store notes in an array
+    let notes = [];
+
+    // Function to render the notes list
+    function renderNotes() {
+      const notesList = document.getElementById("notes-list");
+      notesList.innerHTML = "";
+
+      notes.forEach((note, index) => {
+        const listItem = document.createElement("li");
+        listItem.classList.add("list-group-item");
+        listItem.innerText = note.title;
+        listItem.addEventListener("click", () => {
+          // Display the clicked note's content in the right-hand column
+          document.getElementById("note-title-input").value = note.title;
+          document.getElementById("note-textarea").value = note.text;
+        });
+
+        notesList.appendChild(listItem);
+      });
+    }
+
+    // Function to save a new note
+    function saveNote() {
+      const titleInput = document.getElementById("note-title-input");
+      const textarea = document.getElementById("note-textarea");
+
+      // Check if both title and text are provided
+      if (titleInput.value.trim() !== "" && textarea.value.trim() !== "") {
+        const newNote = {
+          title: titleInput.value.trim(),
+          text: textarea.value.trim(),
+        };
+
+        // Add the new note to the notes array
+        notes.push(newNote);
+
+        // Clear input fields
+        titleInput.value = "";
+        textarea.value = "";
+
+        // Re-render the notes list
+        renderNotes();
+      }
+    }
+
+    // Attach event listeners
+    document.querySelector(".save-note").addEventListener("click", saveNote);
+
+    // Initial rendering of notes list
+    renderNotes();
     <script src="/assets/js/index.js"></script>
-  </body>
+</body>
 </html>
