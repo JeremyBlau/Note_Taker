@@ -2,6 +2,9 @@ const express = require('express');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
+const saveNoteBtn = document.querySelector('.save-note')
+saveNoteBtn.addEventListener('click', handleNoteSave);
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -79,7 +82,7 @@ app.get('/api/notes', (req, res) => {
   app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
   });
-  
+
   app.get('/', (req, res) => {
     const filePath = __dirname + '/public/index.html';
     fs.access(filePath, fs.constants.F_OK, (err) => {
