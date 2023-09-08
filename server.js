@@ -11,7 +11,7 @@ app.use(express.static('public'));
 
 //html routes
 app.get('/notes', (req, res) => {
-    res.sendFile(__dirname + '/public/notes.html');
+    res.sendFile(__dirname + 'public/notes.html');
   });
   
   app.get('*', (req, res) => {
@@ -79,4 +79,13 @@ app.get('/api/notes', (req, res) => {
   app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
   });
-    
+  
+  app.get('/', (req, res) => {
+    const filePath = __dirname + '/public/index.html';
+    fs.access(filePath, fs.constants.F_OK, (err) => {
+      if (err) {
+        return res.status(404).send('File not found');
+      }
+      res.sendFile(filePath);
+    });
+  });
