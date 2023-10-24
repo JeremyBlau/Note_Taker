@@ -13,8 +13,8 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // Use the HTML and API routes
-app.use(htmlRoutes);
 app.use(apiRoutes);
+app.use(htmlRoutes);
 
 // Start the server
 app.listen(PORT, () => {

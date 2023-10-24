@@ -7,7 +7,7 @@ router.get('/notes', (req, res) => {
 });
 
 // GET * should return the index.html file.
-router.get('/', (req, res) => {
+router.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
